@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.swpu.met.stuteam.mapper.ManageSignMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.swpu.met.stuteam.pojo.ManageSign" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="week" property="week" jdbcType="INTEGER" />
+    <result column="banci" property="banci" jdbcType="VARCHAR" />
+    <result column="createName" property="createname" jdbcType="VARCHAR" />
+    <result column="confirmName" property="confirmname" jdbcType="VARCHAR" />
+    <result column="latesDes" property="latesdes" jdbcType="VARCHAR" />
+    <result column="bikesDes" property="bikesdes" jdbcType="VARCHAR" />
+    <result column="keysDes" property="keysdes" jdbcType="VARCHAR" />
+    <result column="CDMD125" property="cdmd125" jdbcType="VARCHAR" />
+    <result column="CDMD182" property="cdmd182" jdbcType="VARCHAR" />
+    <result column="CUQ" property="cuq" jdbcType="VARCHAR" />
+    <result column="EDU" property="edu" jdbcType="VARCHAR" />
+    <result column="logistics1" property="logistics1" jdbcType="INTEGER" />
+    <result column="logistics2" property="logistics2" jdbcType="INTEGER" />
+    <result column="CDMDUnfinish" property="cdmdunfinish" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, createTime, week, banci, createName, confirmName, latesDes, bikesDes, keysDes, 
+    CDMD125, CDMD182, CUQ, EDU, logistics1, logistics2, CDMDUnfinish, remarks
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSignExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manage_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from manage_sign
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询出最后一条记录 -->
+  <select id="selectLastSign" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from manage_sign
+    order by id desc limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from manage_sign
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSignExample" >
+    delete from manage_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSign" >
+  	<!-- <selectKey keyProperty="id" order="AFTER" resultType="String">
+		select last_insert_UUID()
+	</selectKey> -->
+    insert into manage_sign (id, createTime, week, 
+      banci, createName, confirmName, 
+      latesDes, bikesDes, keysDes, 
+      CDMD125, CDMD182, CUQ, 
+      EDU, logistics1, logistics2, 
+      CDMDUnfinish, remarks)
+    values (#{id,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{week,jdbcType=INTEGER}, 
+      #{banci,jdbcType=VARCHAR}, #{createname,jdbcType=VARCHAR}, #{confirmname,jdbcType=VARCHAR}, 
+      #{latesdes,jdbcType=VARCHAR}, #{bikesdes,jdbcType=VARCHAR}, #{keysdes,jdbcType=VARCHAR}, 
+      #{cdmd125,jdbcType=VARCHAR}, #{cdmd182,jdbcType=VARCHAR}, #{cuq,jdbcType=VARCHAR}, 
+      #{edu,jdbcType=VARCHAR}, #{logistics1,jdbcType=INTEGER}, #{logistics2,jdbcType=INTEGER}, 
+      #{cdmdunfinish,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSign" >
+    insert into manage_sign
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="week != null" >
+        week,
+      </if>
+      <if test="banci != null" >
+        banci,
+      </if>
+      <if test="createname != null" >
+        createName,
+      </if>
+      <if test="confirmname != null" >
+        confirmName,
+      </if>
+      <if test="latesdes != null" >
+        latesDes,
+      </if>
+      <if test="bikesdes != null" >
+        bikesDes,
+      </if>
+      <if test="keysdes != null" >
+        keysDes,
+      </if>
+      <if test="cdmd125 != null" >
+        CDMD125,
+      </if>
+      <if test="cdmd182 != null" >
+        CDMD182,
+      </if>
+      <if test="cuq != null" >
+        CUQ,
+      </if>
+      <if test="edu != null" >
+        EDU,
+      </if>
+      <if test="logistics1 != null" >
+        logistics1,
+      </if>
+      <if test="logistics2 != null" >
+        logistics2,
+      </if>
+      <if test="cdmdunfinish != null" >
+        CDMDUnfinish,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null" >
+        #{week,jdbcType=INTEGER},
+      </if>
+      <if test="banci != null" >
+        #{banci,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmname != null" >
+        #{confirmname,jdbcType=VARCHAR},
+      </if>
+      <if test="latesdes != null" >
+        #{latesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="bikesdes != null" >
+        #{bikesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="keysdes != null" >
+        #{keysdes,jdbcType=VARCHAR},
+      </if>
+      <if test="cdmd125 != null" >
+        #{cdmd125,jdbcType=VARCHAR},
+      </if>
+      <if test="cdmd182 != null" >
+        #{cdmd182,jdbcType=VARCHAR},
+      </if>
+      <if test="cuq != null" >
+        #{cuq,jdbcType=VARCHAR},
+      </if>
+      <if test="edu != null" >
+        #{edu,jdbcType=VARCHAR},
+      </if>
+      <if test="logistics1 != null" >
+        #{logistics1,jdbcType=INTEGER},
+      </if>
+      <if test="logistics2 != null" >
+        #{logistics2,jdbcType=INTEGER},
+      </if>
+      <if test="cdmdunfinish != null" >
+        #{cdmdunfinish,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSignExample" resultType="java.lang.Integer" >
+    select count(*) from manage_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update manage_sign
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.week != null" >
+        week = #{record.week,jdbcType=INTEGER},
+      </if>
+      <if test="record.banci != null" >
+        banci = #{record.banci,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createname != null" >
+        createName = #{record.createname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmname != null" >
+        confirmName = #{record.confirmname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latesdes != null" >
+        latesDes = #{record.latesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bikesdes != null" >
+        bikesDes = #{record.bikesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keysdes != null" >
+        keysDes = #{record.keysdes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdmd125 != null" >
+        CDMD125 = #{record.cdmd125,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdmd182 != null" >
+        CDMD182 = #{record.cdmd182,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuq != null" >
+        CUQ = #{record.cuq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.edu != null" >
+        EDU = #{record.edu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logistics1 != null" >
+        logistics1 = #{record.logistics1,jdbcType=INTEGER},
+      </if>
+      <if test="record.logistics2 != null" >
+        logistics2 = #{record.logistics2,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdmdunfinish != null" >
+        CDMDUnfinish = #{record.cdmdunfinish,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update manage_sign
+    set id = #{record.id,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      week = #{record.week,jdbcType=INTEGER},
+      banci = #{record.banci,jdbcType=VARCHAR},
+      createName = #{record.createname,jdbcType=VARCHAR},
+      confirmName = #{record.confirmname,jdbcType=VARCHAR},
+      latesDes = #{record.latesdes,jdbcType=VARCHAR},
+      bikesDes = #{record.bikesdes,jdbcType=VARCHAR},
+      keysDes = #{record.keysdes,jdbcType=VARCHAR},
+      CDMD125 = #{record.cdmd125,jdbcType=VARCHAR},
+      CDMD182 = #{record.cdmd182,jdbcType=VARCHAR},
+      CUQ = #{record.cuq,jdbcType=VARCHAR},
+      EDU = #{record.edu,jdbcType=VARCHAR},
+      logistics1 = #{record.logistics1,jdbcType=INTEGER},
+      logistics2 = #{record.logistics2,jdbcType=INTEGER},
+      CDMDUnfinish = #{record.cdmdunfinish,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSign" >
+    update manage_sign
+    <set >
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null" >
+        week = #{week,jdbcType=INTEGER},
+      </if>
+      <if test="banci != null" >
+        banci = #{banci,jdbcType=VARCHAR},
+      </if>
+      <if test="createname != null" >
+        createName = #{createname,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmname != null" >
+        confirmName = #{confirmname,jdbcType=VARCHAR},
+      </if>
+      <if test="latesdes != null" >
+        latesDes = #{latesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="bikesdes != null" >
+        bikesDes = #{bikesdes,jdbcType=VARCHAR},
+      </if>
+      <if test="keysdes != null" >
+        keysDes = #{keysdes,jdbcType=VARCHAR},
+      </if>
+      <if test="cdmd125 != null" >
+        CDMD125 = #{cdmd125,jdbcType=VARCHAR},
+      </if>
+      <if test="cdmd182 != null" >
+        CDMD182 = #{cdmd182,jdbcType=VARCHAR},
+      </if>
+      <if test="cuq != null" >
+        CUQ = #{cuq,jdbcType=VARCHAR},
+      </if>
+      <if test="edu != null" >
+        EDU = #{edu,jdbcType=VARCHAR},
+      </if>
+      <if test="logistics1 != null" >
+        logistics1 = #{logistics1,jdbcType=INTEGER},
+      </if>
+      <if test="logistics2 != null" >
+        logistics2 = #{logistics2,jdbcType=INTEGER},
+      </if>
+      <if test="cdmdunfinish != null" >
+        CDMDUnfinish = #{cdmdunfinish,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.swpu.met.stuteam.pojo.ManageSign" >
+    update manage_sign
+    set createTime = #{createtime,jdbcType=TIMESTAMP},
+      week = #{week,jdbcType=INTEGER},
+      banci = #{banci,jdbcType=VARCHAR},
+      createName = #{createname,jdbcType=VARCHAR},
+      confirmName = #{confirmname,jdbcType=VARCHAR},
+      latesDes = #{latesdes,jdbcType=VARCHAR},
+      bikesDes = #{bikesdes,jdbcType=VARCHAR},
+      keysDes = #{keysdes,jdbcType=VARCHAR},
+      CDMD125 = #{cdmd125,jdbcType=VARCHAR},
+      CDMD182 = #{cdmd182,jdbcType=VARCHAR},
+      CUQ = #{cuq,jdbcType=VARCHAR},
+      EDU = #{edu,jdbcType=VARCHAR},
+      logistics1 = #{logistics1,jdbcType=INTEGER},
+      logistics2 = #{logistics2,jdbcType=INTEGER},
+      CDMDUnfinish = #{cdmdunfinish,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 注解实现多参数入参 -->
+  <update id="updateConfirmName">
+    update manage_sign
+    set 
+      confirmName = #{confirmname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+	<!-- 分页查询 -->
+  <select id="selectPageByQueryVo"  parameterType="QuerySignVo" resultType="ManageSign">
+  	select 
+    <include refid="Base_Column_List" />
+     from manage_sign
+    <where>
+      <if test="id != null and id != ''" >
+       	id like "%"#{id}"%"
+      </if>
+      <if test="createname != null" >
+        createname like "%"#{createname}"%"
+      </if>
+      <if test="confirmname != null" >
+        confirmname like "%"#{confirmname}"%"
+      </if>
+      <if test="latesdes != null" >
+        latesdes like "%"#{latesdes}"%"
+      </if>
+      <if test="bikesdes != null" >
+        bikesdes like "%"#{bikesdes}"%"
+      </if>
+      <if test="keysdes != null" >
+        keysdes like "%"#{keysdes}"%"
+      </if>
+      <if test="remarks != null" >
+        remarks like "%"#{remarks}"%"
+      </if>
+    </where>
+    	order by id DESC limit #{startRow},#{size}
+  </select>
+</mapper>
