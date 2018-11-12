@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.swpu.met.stuteam.mapper.ToolToolsMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.swpu.met.stuteam.pojo.ToolTools" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="toolId" property="toolid" jdbcType="VARCHAR" />
+    <result column="toolName" property="toolname" jdbcType="VARCHAR" />
+    <result column="toolPrice" property="toolprice" jdbcType="DOUBLE" />
+    <result column="station" property="station" jdbcType="INTEGER" />
+    <result column="toolDes" property="tooldes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, toolId, toolName, toolPrice, station, toolDes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolToolsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tool_tools
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tool_tools
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tool_tools
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolToolsExample" >
+    delete from tool_tools
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolTools" >
+    insert into tool_tools (id, toolId, toolName, 
+      toolPrice, station, toolDes
+      )
+    values (#{id,jdbcType=INTEGER}, #{toolid,jdbcType=VARCHAR}, #{toolname,jdbcType=VARCHAR}, 
+      #{toolprice,jdbcType=DOUBLE}, #{station,jdbcType=INTEGER}, #{tooldes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolTools" >
+    insert into tool_tools
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="toolid != null" >
+        toolId,
+      </if>
+      <if test="toolname != null" >
+        toolName,
+      </if>
+      <if test="toolprice != null" >
+        toolPrice,
+      </if>
+      <if test="station != null" >
+        station,
+      </if>
+      <if test="tooldes != null" >
+        toolDes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="toolid != null" >
+        #{toolid,jdbcType=VARCHAR},
+      </if>
+      <if test="toolname != null" >
+        #{toolname,jdbcType=VARCHAR},
+      </if>
+      <if test="toolprice != null" >
+        #{toolprice,jdbcType=DOUBLE},
+      </if>
+      <if test="station != null" >
+        #{station,jdbcType=INTEGER},
+      </if>
+      <if test="tooldes != null" >
+        #{tooldes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolToolsExample" resultType="java.lang.Integer" >
+    select count(*) from tool_tools
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tool_tools
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.toolid != null" >
+        toolId = #{record.toolid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toolname != null" >
+        toolName = #{record.toolname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toolprice != null" >
+        toolPrice = #{record.toolprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.station != null" >
+        station = #{record.station,jdbcType=INTEGER},
+      </if>
+      <if test="record.tooldes != null" >
+        toolDes = #{record.tooldes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tool_tools
+    set id = #{record.id,jdbcType=INTEGER},
+      toolId = #{record.toolid,jdbcType=VARCHAR},
+      toolName = #{record.toolname,jdbcType=VARCHAR},
+      toolPrice = #{record.toolprice,jdbcType=DOUBLE},
+      station = #{record.station,jdbcType=INTEGER},
+      toolDes = #{record.tooldes,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolTools" >
+    update tool_tools
+    <set >
+      <if test="toolid != null" >
+        toolId = #{toolid,jdbcType=VARCHAR},
+      </if>
+      <if test="toolname != null" >
+        toolName = #{toolname,jdbcType=VARCHAR},
+      </if>
+      <if test="toolprice != null" >
+        toolPrice = #{toolprice,jdbcType=DOUBLE},
+      </if>
+      <if test="station != null" >
+        station = #{station,jdbcType=INTEGER},
+      </if>
+      <if test="tooldes != null" >
+        toolDes = #{tooldes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.swpu.met.stuteam.pojo.ToolTools" >
+    update tool_tools
+    set toolId = #{toolid,jdbcType=VARCHAR},
+      toolName = #{toolname,jdbcType=VARCHAR},
+      toolPrice = #{toolprice,jdbcType=DOUBLE},
+      station = #{station,jdbcType=INTEGER},
+      toolDes = #{tooldes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

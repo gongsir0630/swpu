@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 自动扫描组件（类）的注解 扫描包时会扫描所有的子孙包 -->
+	<!-- <context:component-scan base-package="cn.edu.swpu.met.stuteam"></context:component-scan> -->
+	
+	
+	<!-- 导入数据库配置文件 -->
+	<!-- 第一种 -->
+	<!-- <context:property-placeholder location="classpath:db.properties"/>  -->
+	<!-- 第二种 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:db.properties"/>
+	</bean>
+	
+	<!-- 配置数据库连接池  DBCP-->
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="10" />
+		<property name="maxIdle" value="5" />
+	</bean> -->
+	
+	<!-- 1.c3p0连接池配置 -->
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<!-- 2.将JDBCtemplate放到spring容器中 -->
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 3.将jdbcTemplate对象注入到Dao的实现类中，便可以调用连接池池中的方法   这一步可以通过集成JdbcDaoSupport类 -->
+	<!-- Mybatis的工厂    配置sqlSessionFactory-->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 读取mybatis呢核心配置文件的位置 -->
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"/>
+	</bean>
+
+	<!-- 
+		Mapper动态代理开发   扫描mapper接口  
+		将他们在容器中注册为MapperFactoryBean 从而省略daode sqlsessionfactory配置
+		MapperScannerConfigurer创建的所有的实现类中都会自动注入sqlSessionFactory的实例，所以在Dao层的组件中无需再配置sqlSessionFactory实例
+		
+		如果在这里采用的事配置Dao开发，则需要给xxMapper 类 配置sqlSessionFactory 
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 基本包 -->
+		<property name="basePackage" value="cn.edu.swpu.met.stuteam.mapper"/>
+	</bean>
+	
+	<!-- 注解事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 开启注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+
+</beans>
